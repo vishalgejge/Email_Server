@@ -1,82 +1,91 @@
-import React,{useState} from 'react'
-import './App.css'
-import axios from 'axios'
-import {saveAs } from 'file-saver'
+import React, { useState } from 'react';
+import './App.css';
+import axios from 'axios';
+import { saveAs } from 'file-saver';
 
 function App() {
-
-
-  const [name,setName] = useState('')
-  const [email,setEmail] = useState('')
-  const [receipt,setRecipt] = useState('')
-  const [price1,setPrice1] = useState(0)
-  const [price2,setPrice2] = useState(0)
-  const [price3,setPrice3] = useState(0)
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [receipt, setReceipt] = useState('');
+    const [price1, setPrice1] = useState(0);
+    const [price2, setPrice2] = useState(0);
+    const [price3, setPrice3] = useState(0);
     const [backendMessage, setBackendMessage] = useState('');
 
-    const fetchDummyJson = async () => {
+    const data = { name, receipt, email, price1, price2, price3 };
+
+    const SubmitForm = async (e) => {
+        e.preventDefault();
+
         try {
-            const response = await axios.get('https://email-server-api.vercel.app/api/dummyJson');
-            setBackendMessage(response.data.message);
+            await axios.post('https://email-server-api.vercel.app/api/createPdf', data);
+            const response = await axios.get('https://email-server-api.vercel.app/api/fetchPdf', { responseType: 'blob' });
+            const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+            saveAs(pdfBlob, 'InvoiceDocument.pdf');
+
+            // Clear inputs
+            setName('');
+            setReceipt('');
+            setEmail('');
+            setPrice1(0);
+            setPrice2(0);
+            setPrice3(0);
+
+            // Send PDF via email
+            const emailResponse = await axios.post('https://email-server-api.vercel.app/api/sendPdf', { email });
+            alert(emailResponse.data);
         } catch (error) {
-            console.error('Error fetching dummy JSON:', error);
-            setBackendMessage('Error connecting to backend');
+            console.error('Error:', error);
+            setBackendMessage('Error generating or sending PDF');
         }
     };
 
-  const data = {name,receipt,email,price1,price2,price3}
-
-
-  const SubmitForm= async(e)=>{
-    e.preventDefault()
-
-   await axios.post(`https://email-server-api.vercel.app/api/createPdf`,data)//create pdf next=> get pdf
-   .then(()=>
-        axios.get(`https://email-server-api.vercel.app/api/fetchPdf`,{responseType:'blob'})//to fetch the generated pdf
-        .then((res)=>{
-          const pdfBlob = new Blob([res.data],{type:'application/pdf'}) 
-          saveAs(pdfBlob,'InvoiceDocument.pdf')  //to save we use file saver
-
-          //to clear all the inputs after downloading 
-          setName('')
-          setRecipt('')
-          setEmail('')
-          setPrice1(0)
-          setPrice2(0)
-          setPrice3(0)
-        })
-        .then(()=>
-          axios.post("https://email-server-api.vercel.app/api/sendPdf",{email:email})
-          .then(response=>{
-            console.log(response);
-            alert(response.data)
-          })
-        )
-   )
-  }
-
-
-
-  return (
-    <div className="main-block">
-      <h1>Generate and Download Pdf</h1>
-            <button onClick={fetchDummyJson}>Check Backend Connection</button>
-            <p>{backendMessage}</p>
-      <form onSubmit={SubmitForm}>
-        <div className="info">
-          <input type="text" placeholder="Name" name="name" value={name} onChange={(e)=>setName(e.target.value)} autoComplete="off"/>
-          <br/>
-            <input type="email" placeholder="Email" name="email" value={email} onChange={(e)=>setEmail(e.target.value)} autoComplete="off"/>
-            <input type="text" placeholder="Recipt Id" name="recipt" value={receipt} onChange={(e)=>setRecipt(e.target.value)} autoComplete="off"/>
-            <input type="text" placeholder="Price1" name="price1" value={price1} onChange={(e)=>setPrice1(e.target.value)} autoComplete="off"/>
-            <input type="number" placeholder="Price2" name="price2" value={price2}onChange={(e)=>setPrice2(e.target.value)} autoComplete="off"/>
-           <input type="number" placeholder="Price3" name="price3" value={price3}onChange={(e)=>setPrice3(e.target.value)} autoComplete="off"/>
-        </div>
-        <button type="submit">Download Pdf & Send toMail</button>
-      </form>
-      
-    </div>
-  );
-}
-
-export default App;
+    return (
+        <div className="main-block">
+            <h1>Generate and Download Pdf</h1>
+            <form onSubmit={SubmitForm}>
+                <div className="info">
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        name="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        autoComplete="off"
+                    />
+                    <br />
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        autoComplete="off"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Receipt Id"
+                        name="receipt"
+                        value={receipt}
+                        onChange={(e) => setReceipt(e.target.value)}
+                        autoComplete="off"
+                    />
+                    <input
+                        type="number"
+                        placeholder="Price1"
+                        name="price1"
+                        value={price1}
+                        onChange={(e) => setPrice1(e.target.value)}
+                        autoComplete="off"
+                    />
+                    <input
+                        type="number"
+                        placeholder="Price2"
+                        name="price2"
+                        value={price2}
+                        onChange={(e) => setPrice2(e.target.value)}
+                        autoComplete="off"
+                    />
+                    <input
+                        type="number"
+            
