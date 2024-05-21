@@ -9,19 +9,21 @@ const env = require('dotenv')
 env.config()
 
 
-exports.createPdf = (req,res)=>{
-
-    pdf.create(pdfTemplate(req.body),{}).toFile('invoice.pdf',(err)=>{
-        if(err){
+exports.createPdf = (req, res) => {
+    pdf.create(pdfTemplate(req.body), {}).toFile('invoice.pdf', (err) => {
+        if (err) {
             console.log(err);
+            return res.status(500).send('Error generating PDF');
         }
-        res.send('pdf generated')
-    })
-}
+        res.send('pdf generated');
+    });
+};
 
-exports.fetchPdf = (req,res)=>{
-    res.sendFile(path.join(__dirname, 'invoice.pdf'))
-}
+
+exports.fetchPdf = (req, res) => {
+    res.sendFile(path.join(__dirname, 'invoice.pdf'));
+};
+
 
 exports.sendPdf = (req,res)=>{
 
