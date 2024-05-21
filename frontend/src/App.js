@@ -75,7 +75,7 @@ function App() {
                         placeholder="Price1"
                         name="price1"
                         value={price1}
-                        onChange={(e) => setPrice1(e.target.value)}
+                        onChange={(e) => setPrice1(Number(e.target.value))}
                         autoComplete="off"
                     />
                     <input
@@ -83,9 +83,23 @@ function App() {
                         placeholder="Price2"
                         name="price2"
                         value={price2}
-                        onChange={(e) => setPrice2(e.target.value)}
+                        onChange={(e) => setPrice2(Number(e.target.value))}
                         autoComplete="off"
                     />
                     <input
                         type="number"
-            
+                        placeholder="Price3"
+                        name="price3"
+                        value={price3}
+                        onChange={(e) => setPrice3(Number(e.target.value))}
+                        autoComplete="off"
+                    />
+                </div>
+                <button type="submit">Download Pdf & Send to Mail</button>
+            </form>
+            <p>{backendMessage}</p>
+        </div>
+    );
+}
+
+export default App;
