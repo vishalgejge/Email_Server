@@ -42,7 +42,7 @@ function App() {
 
     return (
         <div className="main-block">
-            <h1>Generate and Download Pdf1</h1>
+            <h1>Generate and Download Pdf123</h1>
             <form onSubmit={SubmitForm}>
                 <div className="info">
                     <input
