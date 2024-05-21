@@ -13,14 +13,18 @@ function App() {
     const [backendMessage, setBackendMessage] = useState('');
 
     const data = { name, receipt, email, price1, price2, price3 };
+            console.log(email)
 
     const SubmitForm = async (e) => {
         e.preventDefault();
 
         try {
             await axios.post('https://email-server-api.vercel.app/api/createPdf', data);
+            console.log(data)
             const response = await axios.get('https://email-server-api.vercel.app/api/fetchPdf', { responseType: 'blob' });
             const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+            console.log(response)
+            console.log(pdfBlob)
             saveAs(pdfBlob, 'InvoiceDocument.pdf');
 
             // Clear inputs
@@ -33,6 +37,7 @@ function App() {
 
             // Send PDF via email
             const emailResponse = await axios.post('https://email-server-api.vercel.app/api/sendPdf', { email });
+            console.log(emailResponse)
             alert(emailResponse.data);
         } catch (error) {
             console.error('Error:', error);
