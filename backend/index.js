@@ -10,7 +10,7 @@ const port = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use(cors({
-    origin: ["https://emailsender-eight.vercel.app"],
+    origin: [""],
     methods: ["POST", "GET"],
     credentials: true
 }));
