@@ -21,5 +21,4 @@ pdfRoute.get('/dummyJson', (req, res) => {
     });
 });
 
-pdfRoute.get('/sendDemoEmail', sendDemoEmail);
 module.exports = pdfRoute;
