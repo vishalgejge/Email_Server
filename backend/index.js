@@ -1,4 +1,4 @@
-// main server file
+// server.js or main server file
 const express = require('express');
 const app = express();
 const env = require('dotenv');
