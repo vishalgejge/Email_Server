@@ -12,6 +12,17 @@ function App() {
   const [price1,setPrice1] = useState(0)
   const [price2,setPrice2] = useState(0)
   const [price3,setPrice3] = useState(0)
+    const [backendMessage, setBackendMessage] = useState('');
+
+    const fetchDummyJson = async () => {
+        try {
+            const response = await axios.get('https://email-server-api.vercel.app/api/dummyJson');
+            setBackendMessage(response.data.message);
+        } catch (error) {
+            console.error('Error fetching dummy JSON:', error);
+            setBackendMessage('Error connecting to backend');
+        }
+    };
 
   const data = {name,receipt,email,price1,price2,price3}
 
