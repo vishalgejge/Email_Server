@@ -6,17 +6,20 @@ const pdfRoute = require('./pdfRoutes');
 
 env.config();
 
-// const port = process.env.PORT || 8000;
-
-app.use(express.json());
+// Set up CORS middleware
 app.use(cors({
-    origin: ["https://email-server-frontend.vercel.app"],
-    methods: ["POST", "GET"],
-    credentials: true
+    origin: "https://email-server-frontend.vercel.app", // Allow requests from this origin
+    methods: ["POST", "GET"], // Allow these HTTP methods
+    credentials: true // Allow credentials (cookies, authorization headers, etc.)
 }));
 
+app.use(express.json());
+
+// Define your API routes
 app.use('/api/pdf', pdfRoute);
 
-// app.listen(port, () => {
-//     console.log(`Server running on port ${port}`);
-// });
+// Start the server
+const port = process.env.PORT || 8000;
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
