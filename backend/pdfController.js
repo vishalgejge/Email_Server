@@ -1,71 +1,59 @@
-
-//we use html-pdf for pdf
-const pdf = require('html-pdf')
-const path = require('path')
-const nodemailer = require('nodemailer')
-const fs = require('fs')
-const pdfTemplate = require("./documents/document")
-const env = require('dotenv')
-env.config()
-
+const pdf = require('html-pdf');
+const path = require('path');
+const pdfTemplate = require('./documents/document');
 
 exports.createPdf = (req, res) => {
     pdf.create(pdfTemplate(req.body), {}).toFile('invoice.pdf', (err) => {
         if (err) {
-            console.log(err);
+            console.error('Error generating PDF:', err);
             return res.status(500).send('Error generating PDF');
         }
-        res.send('pdf generated');
+        res.send('PDF generated');
     });
 };
-
 
 exports.fetchPdf = (req, res) => {
     res.sendFile(path.join(__dirname, 'invoice.pdf'));
 };
 
+exports.sendPdf = (req, res) => {
+    const nodemailer = require('nodemailer');
+    const fs = require('fs');
 
-exports.sendPdf = (req,res)=>{
-
-    pathToAttachment = path.join(__dirname, 'invoice.pdf')
-    attachment = fs.readFileSync(pathToAttachment).toString("base64")
+    const pathToAttachment = path.join(__dirname, 'invoice.pdf');
+    const attachment = fs.readFileSync(pathToAttachment).toString("base64");
 
     let smtpTransport = nodemailer.createTransport({
-        host:'smtp.gmail.com',
-        service:'Gmail',
-        port:465,
-        secure:true,
-        auth:{
-            user:process.env.USER,
-            pass:process.env.PASSWORD
+        host: 'smtp.gmail.com',
+        service: 'Gmail',
+        port: 465,
+        secure: true,
+        auth: {
+            user: process.env.USER,
+            pass: process.env.PASSWORD
         },
-        tls:{rejectUnauthorized:false}
-    })
+        tls: { rejectUnauthorized: false }
+    });
 
     smtpTransport.sendMail({
-        from:process.env.EMAIL,
-        to:req.body.email,
-        subject:'Pdf Generate document',
-        html:`
-        Testing Pdf Generate document, Thanks.`,
-        attachments:[
+        from: process.env.EMAIL,
+        to: req.body.email,
+        subject: 'PDF Generated Document',
+        html: 'Testing PDF Generated Document, Thanks.',
+        attachments: [
             {
-                content:attachment,
-                filename:'invoice.pdf',
+                content: attachment,
+                filename: 'invoice.pdf',
                 contentType: 'application/pdf',
-                path:pathToAttachment
+                path: pathToAttachment
             }
         ]
-    },function(error,info){
-
-        if(error){
-            console.log(error);
+    }, function (error, info) {
+        if (error) {
+            console.error(error);
+            return res.status(500).send('Error sending email');
+        } else {
+            res.send('Mail has been sent to your email. Check your mail');
         }
-        else{
-            res.send("Mail has been sended to your email. Check your mail")
-        }
-       
-    })
-
-
-}
+    });
+};
