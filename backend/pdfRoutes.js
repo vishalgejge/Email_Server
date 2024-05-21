@@ -2,10 +2,11 @@ const express = require('express');
 const { createPdf, fetchPdf, sendPdf } = require('./pdfController');
 const pdfRoute = express.Router();
 
-pdfRoute.post('/createPdf', createPdf);
-pdfRoute.get('/fetchPdf', fetchPdf);
-pdfRoute.post('/sendPdf', sendPdf);
+pdfRoute.post('/createPdf', createPdf); // to generate pdf 
+pdfRoute.get('/fetchPdf', fetchPdf); // to fetch the generated pdf
+pdfRoute.post('/sendPdf', sendPdf); // send pdf to mail
 
+// Dummy route to test backend connection
 pdfRoute.get('/dummyJson', (req, res) => {
     res.json({
         message: "Backend is connected!",
@@ -19,7 +20,5 @@ pdfRoute.get('/dummyJson', (req, res) => {
         }
     });
 });
-
-pdfRoute.get('/sendDemoEmail', sendDemoEmail);
 
 module.exports = pdfRoute;
