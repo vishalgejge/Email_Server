@@ -1,25 +1,19 @@
-const express = require('express');
+const express = require('express')
 const app = express();
-const env = require('dotenv');
+const env = require('dotenv')
 const cors = require('cors');
 const pdfRoute = require('./pdfRoutes');
+const path = require('path')
 
-env.config();
+env.config()
 
-// Set up CORS middleware
-app.use(cors({
-    origin: "https://email-server-frontend.vercel.app", // Allow requests from this origin
-    methods: ["POST", "GET"], // Allow these HTTP methods
-    credentials: true // Allow credentials (cookies, authorization headers, etc.)
-}));
+const port = 8000;
 
-app.use(express.json());
+app.use(express.json())
+app.use(cors())
 
-// Define your API routes
-app.use('/', pdfRoute);
+app.use(pdfRoute)
 
-// Start the server
-const port = process.env.PORT || 8000;
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+app.listen(port,()=>{
+    console.log(`Server running on ${port}`);
+})
