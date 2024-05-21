@@ -60,6 +60,8 @@ function App() {
   return (
     <div className="main-block">
       <h1>Generate and Download Pdf</h1>
+            <button onClick={fetchDummyJson}>Check Backend Connection</button>
+            <p>{backendMessage}</p>
       <form onSubmit={SubmitForm}>
         <div className="info">
           <input type="text" placeholder="Name" name="name" value={name} onChange={(e)=>setName(e.target.value)} autoComplete="off"/>
