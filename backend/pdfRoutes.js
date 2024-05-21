@@ -14,7 +14,7 @@ pdfRoute.get('/dummyJson', (req, res) => {
         data: {
             name: "John Doe",
             receipt: "12345",
-            email: "john.doe@example.com",
+            email: "john@example.com",
             price1: 100,
             price2: 200,
             price3: 300
