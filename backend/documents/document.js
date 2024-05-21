@@ -1,6 +1,5 @@
-
-module.exports = ({name,price1,price2,price3,receipt,email})=>{
-    const today = new Date()
+module.exports = ({name, price1, price2, price3, receipt, email}) => {
+    const today = new Date();
     return `
     <!doctype html>
     <html>
@@ -87,12 +86,10 @@ module.exports = ({name,price1,price2,price3,receipt,email})=>{
                    <td colspan="2">
                       <table>
                          <tr>
-                            <td class="title"><img  src="https://wilcity.com/wp-content/uploads/2018/12/sample-logo-design-png-3-2.png"
-                               style="width:100%; max-width:156px;"></td>
+                            <td class="title"><img src="https://wilcity.com/wp-content/uploads/2018/12/sample-logo-design-png-3-2.png" style="width:100%; max-width:156px;"></td>
                             <td>
-                            Date of Invoice: ${`${today.getDate()}. ${today.getMonth() + 1}. ${today.getFullYear()}.`}
-                            <br/>
-                            Email: ${`${email}`}
+                               Date of Invoice: ${`${today.getDate()}. ${today.getMonth() + 1}. ${today.getFullYear()}.`}<br />
+                               Email: ${email}
                             </td>
                          </tr>
                       </table>
@@ -116,7 +113,7 @@ module.exports = ({name,price1,price2,price3,receipt,email})=>{
                    <td>Invoice</td>
                    <td>Price</td>
                 </tr>
-                <tr class="item">S
+                <tr class="item">
                    <td>First item:</td>
                    <td>${price1}$</td>
                 </tr>
@@ -125,18 +122,17 @@ module.exports = ({name,price1,price2,price3,receipt,email})=>{
                    <td>${price2}$</td>
                 </tr>
                 <tr class="item">
-                <td>Third item:</td>
-                <td>${price3}$</td>
-             </tr>
+                   <td>Third item:</td>
+                   <td>${price3}$</td>
+                </tr>
              </table>
              <br />
-             <h3 class="justify-center">Total price: ${parseInt(price1) + parseInt(price2) +parseInt(price3)}$</h3>
+             <h3 class="justify-center">Total price: ${parseInt(price1) + parseInt(price2) + parseInt(price3)}$</h3>
              <footer>
-             <p class="justify-center">Invoice was created on ${`${today.getDate()}. ${today.getMonth() + 1}. ${today.getFullYear()}.`}</p>
-         </footer>
+                <p class="justify-center">Invoice was created on ${`${today.getDate()}. ${today.getMonth() + 1}. ${today.getFullYear()}.`}</p>
+             </footer>
           </div>
        </body>
     </html>
-    `
-
-}
+    `;
+};
