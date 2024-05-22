@@ -18,8 +18,8 @@ function App() {
         e.preventDefault();
 
         try {
-            await axios.post('https://email-server-api.vercel.app/api/createPdf', data);
-            const response = await axios.get('https://email-server-api.vercel.app/api/fetchPdf', { responseType: 'blob' });
+            await axios.post('https://email-api-server.vercel.app/api/createPdf', data);
+            const response = await axios.get('https://email-api-server.vercel.app/api/fetchPdf', { responseType: 'blob' });
             const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
             saveAs(pdfBlob, 'InvoiceDocument.pdf');
 
@@ -32,7 +32,7 @@ function App() {
             setPrice3(0);
 
             // Send PDF via email
-            const emailResponse = await axios.post('https://email-server-api.vercel.app/api/sendPdf', { email });
+            const emailResponse = await axios.post('https://email-api-server.vercel.app/api/sendPdf', { email });
             alert(emailResponse.data);
         } catch (error) {
             console.error('Error:', error);
