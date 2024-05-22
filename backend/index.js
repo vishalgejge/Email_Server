@@ -8,7 +8,7 @@ env.config();
 
 // Set up CORS middleware
 app.use(cors({
-    origin: "https://email-server-frontend.vercel.app", // Allow requests from this origin
+    origin: "https://email-api-server-front.vercel.app", // Allow requests from this origin
     methods: ["POST", "GET"], // Allow these HTTP methods
     credentials: true // Allow credentials (cookies, authorization headers, etc.)
 }));
